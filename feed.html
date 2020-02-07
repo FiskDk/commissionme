@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CommisionMe (Backup 1580807576864)</title>
+    <meta name="theme-color" content="rgb(0,0,0)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.min.css">
+</head>
+
+<body>
+    <header id="headeruwu" class="header" style="height: 59px;background-color: #000000 !important;">
+        <h1 class="text-left float-none" style="color: rgb(255,255,255);background: black;background-color: black;"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>CommissionMe</h1>
+    </header>
+    <div class="content">
+        <div id="wrapper" style="height: 1014px;margin-top: -64px;padding-top: 59px;background: rgb(0,0,0);">
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand"> <a href="#">FEED</a></li>
+                    <li> <a href="/mycommissions.html" id="btnmycommissions">MY COMMISIONS</a></li>
+                    <li> <a href="/dashboard.html" id="btndashboard">DASHBOARD</a></li>
+                    <li> <a href="/index.html" id="btnhome">HOME</a></li>
+                    <li> <a href="#" id="btnlogout">LOG OUT</a></li>
+                </ul>
+            </div>
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <h1 class="float-none" style="font-size: 40px;">Welcome back<br>&nbsp;<small id="feedun">UserName</small></h1>
+                            </div>
+                            <p>Here you can commision other artists!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="clearfix"></div>
+                <div class="col" id="posts"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade border rounded" role="dialog" tabindex="-1" id="confirmcommission" style="/*border: 20px;*//*border-color: #b71c1c;*/">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border rounded-0 border-dark">
+                    <h4 class="modal-title">Do you want to commission this artist?</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body border rounded-0 border-dark">
+                    <p>You will be sent to the artst´s link to compleate the order.<br>Artist link :</p>
+                    <p id="artistlinl">Paragraph</p>
+                </div>
+                <div class="modal-footer border rounded-0 border-dark"><button class="btn btn-light border rounded-0 border-dark btn-primary btnre" type="button" data-dismiss="modal">No</button><button class="btn btn-primary border rounded-0 border-dark btnre" type="button" id="modalbuybtn">Yes</button></div>
+            </div>
+        </div>
+    </div><script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous">
+</script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-database.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+    var selartist=""
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDMSsHtOkY3bH8ZdGCSgAAaZapt7-vZhqk",
+    authDomain: "fir-test-8a0c3.firebaseapp.com",
+    databaseURL: "https://fir-test-8a0c3.firebaseio.com",
+    projectId: "fir-test-8a0c3",
+    storageBucket: "fir-test-8a0c3.appspot.com",
+    messagingSenderId: "478109238260",
+    appId: "1:478109238260:web:f8f5c4b53ab5d157bfefa1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+    
+
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+    // ...
+      console.log("Logged in!")
+        document.getElementById("feedun").innerText = displayName
+      console.log("Logged in as : " + email)
+      loadPosts()
+  } else {
+    // User is signed out.
+    // ...
+      console.log("Not logged in :c")
+      location.href = "./login.html"
+  }
+});
+    document.getElementById("btnlogout").addEventListener("click", function(){
+        // Sign out user
+        firebase.auth().signOut()
+ .catch(function (err) {
+   // Handle errors
+ });
+    });
+
+
+    function loadPosts(){
+                    var database = firebase.database();
+  firebase.database().ref('users/').ref.on('value', function(snapshot) {
+   if (snapshot.exists()){
+       console.log("Loading user posts!")
+var query = firebase.database().ref("users/").orderByKey();
+query.once("value")
+  .then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      // key will be "ada" the first time and "alan" the second time
+      var key = childSnapshot.key;
+        console.log(key)
+      // childData will be the actual contents of the child
+      var childData = childSnapshot.val();
+        console.log(childData.desc)
+        if (childData.open=="Yes"){
+        //Load new post
+        var a1 = document.createElement("a") //Create share btn
+a1.setAttribute("class","card-link")
+a1.innerText="Share"
+a1.href="#"
+
+var a2 = document.createElement("a") //create commission btn
+a2.setAttribute("class","card-link dobuy")
+a2.setAttribute("id", childSnapshot.val().username)
+a2.innerText="Commission this artist"
+a2.href="#"
+a2.setAttribute("data-toggle","modal")
+a2.setAttribute("data-target","#confirmcommission")
+
+//Load new post
+var d1 = document.createElement("div")
+d1.setAttribute("class","card")
+
+var d2 = document.createElement("div")
+d2.setAttribute("class","card-body")
+
+var txtTitle = document.createElement("h4")
+txtTitle.setAttribute("class","card-title")
+txtTitle.innerText = childSnapshot.val().posttitle;
+var txtArtist = document.createElement("h6")
+txtArtist.setAttribute("class","text-muted card-subtitle mb-2")
+txtArtist.innerText = childSnapshot.val().username;
+
+var txtMain = document.createElement("p")
+txtMain.setAttribute("class","card-text")
+txtMain.innerText = childSnapshot.val().desc;
+
+var txtPrices = document.createElement("p")
+txtPrices.setAttribute("class","card-text")
+txtPrices.innerText = "Prices : Min : " + childSnapshot.val().pmin + " Max : " + childSnapshot.val().pmax
+d2.appendChild(txtTitle)
+d2.appendChild(txtArtist)
+d2.appendChild(txtMain)
+d2.appendChild(txtPrices)
+d2.appendChild(a1)
+d2.appendChild(a2)
+d1.appendChild(d2)
+document.getElementById("posts").appendChild(d1)
+               $(".dobuy").on("click", function(event) {
+  console.log($(this).attr('id'));
+               selartist=$(this).attr('id')
+                   console.log(selartist)
+                       var starCountRef = firebase.database().ref('users/' + selartist);
+starCountRef.on('value', function(snapshot) {
+                console.log(snapshot.val().artisturl)
+    document.getElementById("artistlinl").innerText=snapshot.val().artisturl
+  });
+});
+            
+        }else{
+            console.log("User : " + childData.username + " isnt open for commissions, therefore the user is hidden from the feed.")
+        }
+
+
+});
+})  
+
+     
+}else{
+     console.log("No users!")
+       
+  
+   }
+  
+    })
+    }
+                                           
+
+
+    
+                                                                          
+    document.getElementById("modalbuybtn").addEventListener("click", function(){
+        var starCountRef = firebase.database().ref('users/' + selartist);
+starCountRef.on('value', function(snapshot) {
+    console.log(snapshot.val())
+  console.log(snapshot.val().artisturl);
+    window.open(snapshot.val().artisturl);
+    
+});
+    })
+    window.onload = function(e){
+        $(document).on('show.bs.modal', '#confirmcommission', function (e) {
+    console.log('works');
+});
+    }
+
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/assets/js/script.min.js"></script>
+</body>
+
+</html>

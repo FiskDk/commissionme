@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CommisionMe (Backup 1580807576864)</title>
+    <meta name="theme-color" content="rgb(0,0,0)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.min.css">
+</head>
+
+<body>
+    <header style="height: 59px;background-color: #000000;">
+        <h1 class="text-left float-none" style="color: rgb(255,255,255);"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>CommissionMe</h1>
+    </header>
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"> <a href="#">DASHBOARD</a></li>
+                <li> <a href="/mycommissions.html" id="btnmycommissions">MY COMMISSIONS</a></li>
+                <li> <a href="/index.html" id="btnhome">HOME</a></li>
+                <li> <a href="/feed.html" id="btnfeed">FEED</a></li>
+                <li> <a href="#" id="btnlogout">LOG OUT</a></li>
+            </ul>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h1 class="float-none">Dashboard</h1>
+                        </div>
+                        <div></div>
+                        <p>Ooooh stuff to change!</p>
+                        <div>
+                            <p>Open for commissions</p>
+                            <div class="dropdown" id="isopen"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="optopen">Please select here</button>
+                                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" id="optopenyes">Yes</a><a class="dropdown-item" role="presentation" href="#" id="optopenno">No</a></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p>Will do NSFW</p>
+                            <div class="dropdown" id="willdonsfw"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="optnsfw">Please select here</button>
+                                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" id="optnsfwyes">Yes</a><a class="dropdown-item" role="presentation" href="#" id="optnsfwno">No</a></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p>Usual time before art is done</p>
+                            <div class="dropdown" id="esttime"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="opttime">Please select here</button>
+                                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" id="opttime1">1 - 7 days</a><a class="dropdown-item" role="presentation" href="#" id="opttime2">2 weeks - 4 weeks</a><a class="dropdown-item" role="presentation" href="#"
+                                        id="opttime3">1 month- 2 months</a><a class="dropdown-item" role="presentation" href="#" id="opttime4">2 months - 4 months</a><a class="dropdown-item" role="presentation" href="#" id="opttime5">4 months or more</a></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p>Post Title</p><input type="text" id="posttitlein" class="txtin"></div>
+                        <div>
+                            <p>Link to where they can contact you (eg Telegram)</p><input type="url" id="urlin" class="txtin"></div>
+                        <div>
+                            <p>Price range</p><input type="number" id="pmin" class="txtin">
+                            <p>To</p><input type="number" id="pmax" class="txtin"></div>
+                        <div>
+                            <p>Post description</p><div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-6">
+            <textarea class="form-control" id="txtdesc" rows="3" placeholder="What's up?" required></textarea>
+        </div>
+    </div>
+</div></div>
+                        <div>
+                            <p>When you make changes, make sure to save them!</p><button class="btn btn-primary" type="button" id="btnsave">Save</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous">
+</script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-database.js"></script>
+
+<script>
+    var comopen=""
+    var donsfw=""
+    var arttime=""
+$(".dropdown-menu a").click(function(){
+  $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+  $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+});
+$('.dropdown-item').click(function() {
+    console.log($(this).parents()[1].id)
+    var tmpval=$(this).parents()[1].id
+   if (tmpval=="isopen"){
+       comopen=$(this).text()
+   }else if (tmpval=="willdonsfw"){
+       donsfw=$(this).text()
+   }else if (tmpval=="esttime"){
+       arttime=$(this).text()
+   }
+       var opt = {
+           comopen:comopen,
+           donsfw:donsfw,
+           arttime:arttime 
+       }
+       console.log(opt)
+  console.log(comopen + "\n" + donsfw + "\n" + arttime);
+ 
+});
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDMSsHtOkY3bH8ZdGCSgAAaZapt7-vZhqk",
+    authDomain: "fir-test-8a0c3.firebaseapp.com",
+    databaseURL: "https://fir-test-8a0c3.firebaseio.com",
+    projectId: "fir-test-8a0c3",
+    storageBucket: "fir-test-8a0c3.appspot.com",
+    messagingSenderId: "478109238260",
+    appId: "1:478109238260:web:f8f5c4b53ab5d157bfefa1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+    
+
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+    // ...
+      console.log("Logged in!")
+      console.log("Logged in as : " + email)
+      loadData();
+  } else {
+    // User is signed out.
+    // ...
+      console.log("Not logged in :c")
+      location.href = "./login.html"
+  }
+});
+    document.getElementById("btnlogout").addEventListener("click", function(){
+        // Sign out user
+        firebase.auth().signOut()
+ .catch(function (err) {
+   // Handle errors
+ });
+    })
+    function loadData(){
+              var database = firebase.database();
+  firebase.database().ref('users/' + firebase.auth().currentUser.displayName).ref.on('value', function(snapshot) {
+   if (snapshot.exists()){
+       console.log("Loading data!")
+               document.getElementById("pmin").value = snapshot.val().pmin
+             document.getElementById("pmax").value = snapshot.val().pmax
+       document.getElementById("txtdesc").value = snapshot.val().desc
+       document.getElementById("posttitlein").value = snapshot.val().posttitle
+       document.getElementById("urlin").value = snapshot.val().artisturl
+   if (snapshot.val().open=="Yes"){
+         console.log("Is open for commissions!")
+       ddselect("optopenyes")
+   }else{
+     
+         ddselect("optopenno")
+   }
+   if (snapshot.val().nsfw=="Yes"){
+       ddselect("optnsfwyes")
+   }else{
+         ddselect("optnsfwno")
+   }
+   if (snapshot.val().arttime=="1 - 7 days"){
+       ddselect("opttime1")
+   }else{
+          if (snapshot.val().arttime=="2 weeks - 4 weeks"){
+       ddselect("opttime2")
+   }else{
+      if (snapshot.val().arttime=="1 month - 2 months"){
+       ddselect("opttime3")
+   }else{
+          if (snapshot.val().arttime=="2 months - 4 months"){
+       ddselect("opttime4")
+   }else{
+    if (snapshot.val().arttime=="4 months or more"){
+       ddselect("opttime5")
+   }
+   }
+   }
+   }
+   }
+}else{
+     console.log("Cant load data! - no data to load!")
+    }
+});
+        function ddselect(id){
+     
+$(".dropdown-menu a").click(function(){
+  $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+  $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+});
+$('.dropdown-item').click(function() {
+    console.log($(this).parents()[1].id)
+    var tmpval=$(this).parents()[1].id
+   if (tmpval=="isopen"){
+       comopen=$(this).text()
+   }else if (tmpval=="willdonsfw"){
+       donsfw=$(this).text()
+   }else if (tmpval=="esttime"){
+       arttime=$(this).text()
+   }
+       var opt = {
+           comopen:comopen,
+           donsfw:donsfw,
+           arttime:arttime 
+       }
+       console.log(opt)
+  console.log(comopen + "\n" + donsfw + "\n" + arttime);
+ 
+});
+$("#" + id).trigger("click");
+    } //Selects dropdown menu values
+
+    
+    }
+document.getElementById("btnsave").addEventListener("click", function() {
+          var database = firebase.database();
+  firebase.database().ref('users/' + firebase.auth().currentUser.displayName).ref.on('value', function(snapshot) {
+   if (snapshot.exists()){
+      console.log("Clearing data for user : " + 
+                  firebase.auth().currentUser.displayName)
+   }else{
+     console.log("Nothing to clear")
+       
+  
+   }
+});
+       //Save data anyways 
+    clearData();
+    saveData();
+})
+    function clearData(){
+              var database = firebase.database();
+       firebase.database().ref('users/' + firebase.auth().currentUser.displayName).remove()
+    }
+   function saveData(){ 
+var database = firebase.database();
+  firebase.database().ref('users/' + firebase.auth().currentUser.displayName).set({
+    open: comopen,
+    nsfw: donsfw,
+      arttime:arttime,
+      pmin:  document.getElementById("pmin").value,
+      pmax:  document.getElementById("pmax").value,
+    desc: document.getElementById("txtdesc").value,
+       posttitle: document.getElementById("posttitlein").value,
+        artisturl: document.getElementById("urlin").value,
+      username: firebase.auth().currentUser.displayName
+  });
+     console.log("Saved!")
+   }
+    
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/assets/js/script.min.js"></script>
+</body>
+
+</html>

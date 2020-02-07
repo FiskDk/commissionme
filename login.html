@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CommisionMe (Backup 1580807576864)</title>
+    <meta name="theme-color" content="rgb(0,0,0)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.min.css">
+</head>
+
+<body>
+    <div class="login-clean" style="background-color: rgb(0,0,0);">
+        <form method="post" style="background-color: #121212;">
+            <h2 class="sr-only">Login Form</h2>
+            <h1 class="text-center" style="font-size: 18px;">Welcome to CommisionMe</h1>
+            <div class="illustration"><i class="icon ion-ios-navigate"></i></div>
+            <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" id="emailin" style="background-color: #424242;color: white;"></div>
+            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" id="passin" style="background-color: #424242;color: white;"></div>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="button" id="login">LOG IN</button></div><a href="/register.html" class="forgot" style="color: white;">Are you new here? - Click here to make a new account!</a></form>
+    </div><!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDMSsHtOkY3bH8ZdGCSgAAaZapt7-vZhqk",
+    authDomain: "fir-test-8a0c3.firebaseapp.com",
+    databaseURL: "https://fir-test-8a0c3.firebaseio.com",
+    projectId: "fir-test-8a0c3",
+    storageBucket: "fir-test-8a0c3.appspot.com",
+    messagingSenderId: "478109238260",
+    appId: "1:478109238260:web:f8f5c4b53ab5d157bfefa1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+    
+    document.getElementById("login").addEventListener("click", function() {
+     
+  firebase.auth().signInWithEmailAndPassword(document.getElementById("emailin").value, document.getElementById("passin").value).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+});
+    })
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+    // ...
+      console.log("Logged in!")
+      location.href = "./index.html"
+  } else {
+    // User is signed out.
+    // ...
+      console.log("Not logged in :c")
+  }
+});
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/assets/js/script.min.js"></script>
+</body>
+
+</html>

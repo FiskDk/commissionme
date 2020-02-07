@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CommisionMe (Backup 1580807576864)</title>
+    <meta name="theme-color" content="rgb(0,0,0)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.min.css">
+</head>
+
+<body>
+    <header style="height: 59px;background-color: #000000;">
+        <h1 class="text-left float-none" style="color: rgb(255,255,255);"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars"></i></a>CommissionMe</h1>
+    </header>
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"> <a href="#">HOME</a></li>
+                <li> <a href="/mycommissions.html" id="btnmycommissions">MY COMMISIONS</a></li>
+                <li> <a href="/dashboard.html" id="btndashboard">DASHBOARD</a></li>
+                <li> <a href="/feed.html" id="btnfeed">FEED</a></li>
+                <li> <a href="#" id="btnlogout">LOG OUT</a></li>
+            </ul>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>
+                            <h1 class="float-none" style="font-size: 40px;">Welcome back<br>&nbsp;<small id="homeun">&nbsp;</small></h1>
+                        </div>
+                        <p>You are a registered beta user!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDMSsHtOkY3bH8ZdGCSgAAaZapt7-vZhqk",
+    authDomain: "fir-test-8a0c3.firebaseapp.com",
+    databaseURL: "https://fir-test-8a0c3.firebaseio.com",
+    projectId: "fir-test-8a0c3",
+    storageBucket: "fir-test-8a0c3.appspot.com",
+    messagingSenderId: "478109238260",
+    appId: "1:478109238260:web:f8f5c4b53ab5d157bfefa1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+    
+
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+    // ...
+      console.log("Logged in!")
+        document.getElementById("homeun").innerText = displayName
+      console.log("Logged in as : " + email)
+  } else {
+    // User is signed out.
+    // ...
+      console.log("Not logged in :c")
+      location.href = "./login.html"
+  }
+});
+    document.getElementById("btnlogout").addEventListener("click", function(){
+        // Sign out user
+        firebase.auth().signOut()
+ .catch(function (err) {
+   // Handle errors
+ });
+    })
+
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/assets/js/script.min.js"></script>
+</body>
+
+</html>
