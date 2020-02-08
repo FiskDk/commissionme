@@ -4,12 +4,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>CommisionMe (Backup 1580807576864)</title>
+    <title>CommissionMe</title>
+    <meta name="twitter:description" content="The best place for artists to be commissioned - and for users to commission artists!">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="assets/img/commissionmeicon.png">
+    <meta name="description" content="The best site to commission the artists you like - andd get commissioned yourself!">
+    <meta property="og:type" content="website">
+    <meta name="twitter:image" content="assets/img/commissionmeicon.png">
+    <meta name="twitter:title" content="CommissionMe">
     <meta name="theme-color" content="rgb(0,0,0)">
+    <link rel="icon" type="image/png" sizes="512x511" href="assets/img/commissionmeicon.png">
+    <link rel="icon" type="image/png" sizes="512x511" href="assets/img/commissionmeicon.png">
+    <link rel="icon" type="image/png" sizes="512x511" href="assets/img/commissionmeicon.png">
+    <link rel="icon" type="image/png" sizes="512x511" href="assets/img/commissionmeicon.png">
+    <link rel="icon" type="image/png" sizes="512x511" href="assets/img/commissionmeicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
@@ -63,6 +75,9 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous">
 </script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/fontawesome.min.css" integrity="sha256-mM6GZq066j2vkC2ojeFbLCcjVzpsrzyMVUnRnEQ5lGw=" crossorigin="anonymous" />
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
@@ -142,6 +157,7 @@ a1.href="#"
 
 var a2 = document.createElement("a") //create commission btn
 a2.setAttribute("class","card-link dobuy")
+
 a2.setAttribute("id", childSnapshot.val().username)
 a2.innerText="Commission this artist"
 a2.href="#"
@@ -160,7 +176,11 @@ txtTitle.setAttribute("class","card-title")
 txtTitle.innerText = childSnapshot.val().posttitle;
 var txtArtist = document.createElement("h6")
 txtArtist.setAttribute("class","text-muted card-subtitle mb-2")
-txtArtist.innerText = childSnapshot.val().username;
+txtArtist.setAttribute("id","artist-" + childSnapshot.val().username)
+            
+txtArtist.innerText = childSnapshot.val().username
+
+             
 
 var txtMain = document.createElement("p")
 txtMain.setAttribute("class","card-text")
@@ -177,6 +197,26 @@ d2.appendChild(a1)
 d2.appendChild(a2)
 d1.appendChild(d2)
 document.getElementById("posts").appendChild(d1)
+            //Check for user badges
+             if (childSnapshot.val().trusted){ //Verified badge
+      
+  console.log("User is verified")
+    var vu = document.createElement("i")
+vu.setAttribute("class","material-icons")
+vu.innerText ="verified_user"
+document.getElementById("artist-"+childSnapshot.val().username).appendChild(vu)
+}else{
+    console.log("User not verified")
+}
+                         if (childSnapshot.val().dev==true){ //Dev badge
+      
+  console.log("User is a dev")
+    var vu = document.createElement("i")
+vu.setAttribute("class","fab fa-dev")
+document.getElementById("artist-"+childSnapshot.val().username).appendChild(vu)
+}else{
+    console.log("User not a dev")
+}
                $(".dobuy").on("click", function(event) {
   console.log($(this).attr('id'));
                selartist=$(this).attr('id')
