@@ -92,7 +92,7 @@ firebase.auth().onAuthStateChanged(function(user) {
               var starCountRef = firebase.database().ref('users/' + displayName);
 starCountRef.on('value', function(snapshot) {
     console.log(snapshot.val().trusted)
-if (snapshot.val().trusted=true){
+if (snapshot.val().trusted==true){
     console.log("User is verified")
     var vu = document.createElement("i")
 vu.setAttribute("class","material-icons")
